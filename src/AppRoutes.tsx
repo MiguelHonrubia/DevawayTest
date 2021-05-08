@@ -3,14 +3,16 @@ import * as React from "react";
 import { Route, Switch } from "react-router-dom";
 import { ROUTES } from "./utils/routes";
 import { Loader } from "./components/general/loader";
+import { usePilotContext } from "./contexts/pilot";
 
 const AppRoutes: React.FC = () => {
-  const loading = false;
+  const { fetchAllPilots, loading } = usePilotContext();
   React.useEffect(() => {
-    //todo: getPilots
+    fetchAllPilots();
   }, []);
 
   if (loading) {
+    console.log("entro en loader");
     return <Loader />;
   }
 

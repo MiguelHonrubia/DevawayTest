@@ -40,9 +40,7 @@ export const usePilotContext = () => {
 
   const fetchAllPilots = async () => {
     setLoadingState();
-
     const pilotsAux = await getPilots();
-
     context.setState &&
       context.setState((state) => ({
         ...state,
@@ -64,7 +62,7 @@ export const usePilotContext = () => {
       }));
   };
 
-  return { context };
+  return { ...context, fetchAllPilots, fetchPilot };
 };
 
 export const PilotProvider = ({ children }: any) => {
@@ -75,6 +73,7 @@ export const PilotProvider = ({ children }: any) => {
         loading: state.loading,
         pilots: state.pilots,
         selectedPilot: state.selectedPilot,
+        setState,
       }}
     >
       {children}

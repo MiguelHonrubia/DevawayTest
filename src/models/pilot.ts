@@ -7,4 +7,6 @@ export type PilotType = {
   name: string;
   team: string;
   races: RaceType[];
+  position?: number;
+  score?: number;
 };
