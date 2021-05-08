@@ -1,11 +1,14 @@
 import * as React from "react";
 import { PilotType } from "../models/pilot";
+import { CompetitionRaceType } from "../models/race";
 import { getPilots, getPilotById } from "../services/pilot";
+import { getCompetitionRaces } from "../utils/races";
 
 interface PilotState {
   loading: boolean;
   pilots: PilotType[];
   selectedPilot: PilotType;
+  competitionRaces: CompetitionRaceType[];
 }
 
 interface PilotStateContext extends PilotState {
@@ -16,6 +19,7 @@ const initialPilotState: PilotState = {
   loading: false,
   pilots: [],
   selectedPilot: {} as PilotType,
+  competitionRaces: [],
 };
 
 const initialPilotStateContext: PilotStateContext = {
@@ -30,6 +34,10 @@ export const PilotContext = React.createContext<PilotStateContext>(
 export const usePilotContext = () => {
   const context = React.useContext(PilotContext);
 
+  const initialFetch = async () => {
+    await fetchAllPilots();
+  };
+
   const setLoadingState = () => {
     context.setState &&
       context.setState((state) => ({
@@ -41,6 +49,8 @@ export const usePilotContext = () => {
   const fetchAllPilots = async () => {
     setLoadingState();
     const pilotsAux = await getPilots();
+    fetchCompetitionRaces(pilotsAux);
+
     context.setState &&
       context.setState((state) => ({
         ...state,
@@ -62,7 +72,26 @@ export const usePilotContext = () => {
       }));
   };
 
-  return { ...context, fetchAllPilots, fetchPilot };
+  const fetchCompetitionRaces = async (pilotsAux: any) => {
+    setLoadingState();
+
+    const races = getCompetitionRaces(pilotsAux);
+
+    context.setState &&
+      context.setState((state) => ({
+        ...state,
+        competitionRaces: races,
+        loading: false,
+      }));
+  };
+
+  return {
+    ...context,
+    fetchAllPilots,
+    fetchPilot,
+    fetchCompetitionRaces,
+    initialFetch,
+  };
 };
 
 export const PilotProvider = ({ children }: any) => {
@@ -73,6 +102,7 @@ export const PilotProvider = ({ children }: any) => {
         loading: state.loading,
         pilots: state.pilots,
         selectedPilot: state.selectedPilot,
+        competitionRaces: state.competitionRaces,
         setState,
       }}
     >

@@ -6,13 +6,12 @@ import { Loader } from "./components/general/loader";
 import { usePilotContext } from "./contexts/pilot";
 
 const AppRoutes: React.FC = () => {
-  const { fetchAllPilots, loading } = usePilotContext();
+  const { initialFetch, loading } = usePilotContext();
   React.useEffect(() => {
-    fetchAllPilots();
+    initialFetch();
   }, []);
 
   if (loading) {
-    console.log("entro en loader");
     return <Loader />;
   }
 

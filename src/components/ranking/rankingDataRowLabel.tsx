@@ -3,8 +3,8 @@ import { styled } from "../../lib/styled-components/styled-components";
 
 const RankingDataRowItem = styled.td`
   vertical-align: middle;
-  margin: auto;
   font-size: 12px;
+  padding-left: 1em;
 `;
 
 export const RankingDataRowLabel: React.FC = ({ children }) => {
