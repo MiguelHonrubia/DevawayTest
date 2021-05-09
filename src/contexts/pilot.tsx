@@ -9,7 +9,6 @@ import { calculateRanking } from "../utils/ranking";
 interface PilotState {
   loading: boolean;
   pilots: PilotType[];
-  selectedPilot: PilotType;
   competitionRaces: CompetitionRaceType[];
   racesRanking: RaceRanking[];
 }
@@ -21,7 +20,6 @@ interface PilotStateContext extends PilotState {
 const initialPilotState: PilotState = {
   loading: false,
   pilots: [],
-  selectedPilot: {} as PilotType,
   competitionRaces: [],
   racesRanking: [],
 };
@@ -37,14 +35,15 @@ export const PilotContext = React.createContext<PilotStateContext>(
 
 export const usePilotContext = () => {
   const context = React.useContext(PilotContext);
+  const { setState } = context;
 
   const initialFetch = async () => {
     await fetchAllPilots();
   };
 
   const setLoadingState = () => {
-    context.setState &&
-      context.setState((state) => ({
+    setState &&
+      setState((state) => ({
         ...state,
         loading: true,
       }));
@@ -53,12 +52,15 @@ export const usePilotContext = () => {
   const fetchAllPilots = async () => {
     setLoadingState();
     const pilotsAux = await getPilots();
-    fetchCompetitionRaces(pilotsAux);
+    const races = getCompetitionRaces(pilotsAux);
+    const racesRanking = calculateRanking(pilotsAux, races);
 
-    context.setState &&
-      context.setState((state) => ({
+    setState &&
+      setState((state) => ({
         ...state,
         pilots: pilotsAux,
+        competitionRaces: races,
+        racesRanking: racesRanking,
         loading: false,
       }));
   };
@@ -68,35 +70,29 @@ export const usePilotContext = () => {
 
     const pilot = await getPilotById(id);
 
-    context.setState &&
-      context.setState((state) => ({
+    setState &&
+      setState((state) => ({
         ...state,
-        selectedPilot: pilot,
         loading: false,
       }));
+
+    return pilot;
   };
 
-  const fetchCompetitionRaces = async (pilotsAux: any) => {
-    setLoadingState();
-
-    const races = getCompetitionRaces(pilotsAux);
-    const racesRanking = calculateRanking(pilotsAux, races);
-
-    context.setState &&
-      context.setState((state) => ({
-        ...state,
-        competitionRaces: races,
-        racesRanking: racesRanking,
-        loading: false,
-      }));
+  const fetchPilotWithCompetitionDetails = (id: string) => {
+    const index = context.pilots.findIndex((x) => x._id === id);
+    if (index !== -1) {
+      context.pilots[index].position = index + 1;
+      return context.pilots[index];
+    }
   };
 
   return {
     ...context,
     fetchAllPilots,
     fetchPilot,
-    fetchCompetitionRaces,
     initialFetch,
+    fetchPilotWithCompetitionDetails,
   };
 };
 
@@ -107,7 +103,6 @@ export const PilotProvider = ({ children }: any) => {
       value={{
         loading: state.loading,
         pilots: state.pilots,
-        selectedPilot: state.selectedPilot,
         competitionRaces: state.competitionRaces,
         racesRanking: state.racesRanking,
         setState,

@@ -8,24 +8,36 @@ const ContainerIcon = styled.div`
   margin-left: -0.5em;
 `;
 
-export const PositionIcon: React.FC<{ position: number }> = ({ position }) => {
+export const PositionIcon: React.FC<{ position: number; small?: boolean }> = ({
+  position,
+  small,
+}) => {
   switch (position) {
     case 1:
       return (
         <ContainerIcon>
-          <GoldTrophy width={25} height={25}></GoldTrophy>
+          <GoldTrophy
+            width={small ? 25 : 75}
+            height={small ? 25 : 75}
+          ></GoldTrophy>
         </ContainerIcon>
       );
     case 2:
       return (
         <ContainerIcon>
-          <SilverTrophy width={25} height={25}></SilverTrophy>
+          <SilverTrophy
+            width={small ? 25 : 75}
+            height={small ? 25 : 75}
+          ></SilverTrophy>
         </ContainerIcon>
       );
     case 3:
       return (
         <ContainerIcon>
-          <BronceTrophy width={25} height={25}></BronceTrophy>
+          <BronceTrophy
+            width={small ? 25 : 75}
+            height={small ? 25 : 75}
+          ></BronceTrophy>
         </ContainerIcon>
       );
     default:

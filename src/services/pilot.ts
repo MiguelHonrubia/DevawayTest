@@ -8,6 +8,7 @@ export const getPilots = (): Promise<PilotType[]> => {
     return Promise.reject(error);
   }
 };
+
 export const getPilotById = (id: string): Promise<PilotType> => {
   try {
     const driver = data.find((item: PilotType) => item._id === id);

@@ -16,7 +16,8 @@ const RankingTable = styled.table`
 export const RankingDataTable: React.FC<{
   pilots?: PilotType[];
   competitionRaces?: CompetitionRaceType[];
-}> = ({ pilots, competitionRaces }) => {
+  onPilotDetail?: (id: string) => void;
+}> = ({ pilots, competitionRaces, onPilotDetail }) => {
   return (
     <RankingTable>
       <RankingHeaderContainer>
@@ -32,31 +33,33 @@ export const RankingDataTable: React.FC<{
       </RankingHeaderContainer>
       <tbody>
         {pilots
-          ? pilots.map(({ name, age, team, position, score, races }, index) => (
-              <RankingDataRow
-                onClick={() => console.log("click")}
-                key={`row` + index}
-              >
-                <RankingDataRowLabel>
-                  {index < 3 ? (
-                    <PositionIcon position={index + 1} />
-                  ) : (
-                    index + 1
-                  )}
-                </RankingDataRowLabel>
-                <RankingDataRowLabel>{name}</RankingDataRowLabel>
-                <RankingDataRowLabel>{age}</RankingDataRowLabel>
-                <RankingDataRowLabel>{team}</RankingDataRowLabel>
-                {competitionRaces &&
-                  races &&
-                  races.map(({ name, time }, index) => (
-                    <RankingDataRowLabel key={`time` + index}>
-                      {time}
-                    </RankingDataRowLabel>
-                  ))}
-                <RankingDataRowLabel>{score}</RankingDataRowLabel>
-              </RankingDataRow>
-            ))
+          ? pilots.map(
+              ({ name, age, team, position, score, races, _id }, index) => (
+                <RankingDataRow
+                  onClick={() => onPilotDetail && onPilotDetail(_id)}
+                  key={`row` + index}
+                >
+                  <RankingDataRowLabel>
+                    {index < 3 ? (
+                      <PositionIcon position={index + 1} small />
+                    ) : (
+                      index + 1
+                    )}
+                  </RankingDataRowLabel>
+                  <RankingDataRowLabel>{name}</RankingDataRowLabel>
+                  <RankingDataRowLabel>{age}</RankingDataRowLabel>
+                  <RankingDataRowLabel>{team}</RankingDataRowLabel>
+                  {competitionRaces &&
+                    races &&
+                    races.map(({ name, time }, index) => (
+                      <RankingDataRowLabel key={`time` + index}>
+                        {time}
+                      </RankingDataRowLabel>
+                    ))}
+                  <RankingDataRowLabel>{score}</RankingDataRowLabel>
+                </RankingDataRow>
+              )
+            )
           : "no data"}
       </tbody>
     </RankingTable>
