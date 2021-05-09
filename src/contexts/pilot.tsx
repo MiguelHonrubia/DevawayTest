@@ -1,14 +1,17 @@
 import * as React from "react";
 import { PilotType } from "../models/pilot";
 import { CompetitionRaceType } from "../models/race";
+import { RaceRanking } from "../models/ranking";
 import { getPilots, getPilotById } from "../services/pilot";
 import { getCompetitionRaces } from "../utils/races";
+import { calculateRanking } from "../utils/ranking";
 
 interface PilotState {
   loading: boolean;
   pilots: PilotType[];
   selectedPilot: PilotType;
   competitionRaces: CompetitionRaceType[];
+  racesRanking: RaceRanking[];
 }
 
 interface PilotStateContext extends PilotState {
@@ -20,6 +23,7 @@ const initialPilotState: PilotState = {
   pilots: [],
   selectedPilot: {} as PilotType,
   competitionRaces: [],
+  racesRanking: [],
 };
 
 const initialPilotStateContext: PilotStateContext = {
@@ -76,11 +80,13 @@ export const usePilotContext = () => {
     setLoadingState();
 
     const races = getCompetitionRaces(pilotsAux);
+    const racesRanking = calculateRanking(pilotsAux, races);
 
     context.setState &&
       context.setState((state) => ({
         ...state,
         competitionRaces: races,
+        racesRanking: racesRanking,
         loading: false,
       }));
   };
@@ -103,6 +109,7 @@ export const PilotProvider = ({ children }: any) => {
         pilots: state.pilots,
         selectedPilot: state.selectedPilot,
         competitionRaces: state.competitionRaces,
+        racesRanking: state.racesRanking,
         setState,
       }}
     >

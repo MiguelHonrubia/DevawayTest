@@ -29,7 +29,6 @@ export const RankingDataTable: React.FC<{
             <RankingHeader key={`header` + index}>{name}</RankingHeader>
           ))}
         <RankingHeader>Total score</RankingHeader>
-        <RankingHeader></RankingHeader>
       </RankingHeaderContainer>
       <tbody>
         {pilots
@@ -39,10 +38,10 @@ export const RankingDataTable: React.FC<{
                 key={`row` + index}
               >
                 <RankingDataRowLabel>
-                  {position && position < 4 ? (
-                    <PositionIcon position={position} />
+                  {index < 3 ? (
+                    <PositionIcon position={index + 1} />
                   ) : (
-                    position
+                    index + 1
                   )}
                 </RankingDataRowLabel>
                 <RankingDataRowLabel>{name}</RankingDataRowLabel>
@@ -56,9 +55,6 @@ export const RankingDataTable: React.FC<{
                     </RankingDataRowLabel>
                   ))}
                 <RankingDataRowLabel>{score}</RankingDataRowLabel>
-                <RankingDataRowLabel>
-                  <button onClick={() => console.log("go to")}>Detail</button>
-                </RankingDataRowLabel>
               </RankingDataRow>
             ))
           : "no data"}

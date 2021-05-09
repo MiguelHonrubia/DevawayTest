@@ -10,3 +10,10 @@ export type PilotType = {
   position?: number;
   score?: number;
 };
+
+export type PilotResult = {
+  _id: string;
+  time: string;
+  position?: number;
+  score?: number;
+};
