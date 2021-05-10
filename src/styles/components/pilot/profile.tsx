@@ -38,19 +38,26 @@ export const CompetitionInfo = styled.span`
   text-align: center;
 `;
 
-export const ProfileText = styled.p<{ size?: "small" | "medium" | "large" }>`
+export const ProfileText = styled.p<{
+  size?: "small" | "medium" | "large" | "extralarge";
+}>`
   font-size: ${({ size }) =>
-    size == "small"
+    size === "small"
       ? "12px"
-      : size == "medium"
+      : size === "medium"
       ? "16px"
-      : size == "large"
+      : size === "large"
       ? "24px"
-      : "10px"};
+      : size === "extralarge"
+      ? "60px"
+      : "12px"};
+  margin-top: 0;
   font-weight: 600;
 `;
 
-export const ProfileTextContainer = styled.div``;
+export const ProfileTextContainer = styled.div`
+  margin: auto;
+`;
 
 export const ProfileContent = styled.div`
   padding: 0.5em;
@@ -61,13 +68,17 @@ export const RaceDetailContainer = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  vertical-align: middle;
 `;
 
 export const RaceDetailCard = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
   padding: 2em;
   margin: 2em 2em 2em 2em;
   width: 11em;
   height: 11em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
 `;
