@@ -1,9 +1,5 @@
 import * as React from "react";
-import { styled } from "../../lib/styled-components/styled-components";
-
-const RankingDataRowContainer = styled.tr<{ selected?: boolean }>`
-  background-color: ${({ selected }) => (selected ? "blue" : "#fff9f9")};
-`;
+import { RankingDataRowContainer } from "../../styles/components/ranking/ranking";
 
 export const RankingDataRow: React.FC<{
   onClick?: any;

@@ -3,12 +3,8 @@ import { styled } from "../../../lib/styled-components/styled-components";
 export const ProfileContainer = styled.div``;
 
 export const ProfileHeaderNavigation = styled.div`
-  background-color: black;
-  color: #ffffff;
-  height: 40px;
-  align-items: center;
-  display: flex;
-  padding-left: 1em;
+  position: absolute;
+  margin: 0.5em;
 `;
 
 export const ProfileHeader = styled.div`
@@ -20,7 +16,26 @@ export const ProfileHeader = styled.div`
   align-items: center;
 `;
 
-export const ReturnButton = styled.button``;
+export const ReturnButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  background-color: #999999;
+  text-decoration: none;
+  margin: 5px;
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+    svg {
+      fill: white;
+    }
+  }
+`;
 
 export const ProfileImg = styled.img`
   padding: 0.5em;
@@ -36,6 +51,10 @@ export const PilotInfo = styled.section`
 export const CompetitionInfo = styled.span`
   font-size: 24px;
   text-align: center;
+  background-color: black;
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
 `;
 
 export const ProfileText = styled.p<{

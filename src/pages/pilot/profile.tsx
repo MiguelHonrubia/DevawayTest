@@ -17,6 +17,7 @@ import {
 } from "../../styles/components/pilot/profile";
 import { PositionIcon } from "../../components/general/positionIcon";
 import { PilotRaceDetail } from "../../components/pilot/pilotRankingtDetail";
+import { ReactComponent as ReturnArrow } from "../../assets/icons/returnArrow.svg";
 
 const Profile: React.FC = () => {
   const history = useHistory();
@@ -28,7 +29,6 @@ const Profile: React.FC = () => {
   } = usePilotContext();
   const { id } = useParams<{ id: string }>();
   const [pilot, setPilot] = React.useState<PilotType | null>(null);
-  //const [interval, setInterval] = React.useState<number>();
   const [contentType, setContentType] = React.useState<
     "ranking" | "times" | "positions"
   >("ranking");
@@ -72,6 +72,7 @@ const Profile: React.FC = () => {
             <RankingDataTable
               pilots={pilots}
               competitionRaces={competitionRaces}
+              idSelectedPilot={id}
             />
           </>
         );
@@ -101,7 +102,12 @@ const Profile: React.FC = () => {
   return (
     <ProfileContainer>
       <ProfileHeaderNavigation>
-        <ReturnButton onClick={returnToRanking}>volver</ReturnButton>
+        <ReturnButton onClick={returnToRanking}>
+          <ReturnArrow width={25} height={25} />
+          <span style={{ marginLeft: "0.5em", fontWeight: 600, fontSize: 16 }}>
+            RETURN
+          </span>
+        </ReturnButton>
       </ProfileHeaderNavigation>
       <ProfileHeader>
         {pilot && (
@@ -113,24 +119,30 @@ const Profile: React.FC = () => {
               ></ProfileImg>
               <ProfileTextContainer>
                 <ProfileText size="large">{pilot.name}</ProfileText>
-                <ProfileText size="medium">{pilot.team}</ProfileText>
-                <ProfileText size="medium">{pilot.age}</ProfileText>
+                <ProfileText size="medium">TEAM {pilot.team}</ProfileText>
+                <ProfileText size="medium">AGE {pilot.age}</ProfileText>
               </ProfileTextContainer>
             </PilotInfo>
             <CompetitionInfo>
               {pilot.position && pilot.position < 4 ? (
-                <PositionIcon position={pilot.position} />
+                <div style={{ marginTop: "1em", marginLeft: "0.5em" }}>
+                  <PositionIcon position={pilot.position} />
+                </div>
               ) : (
                 <>
-                  <ProfileText size="large"> {pilot.position}</ProfileText>
-                  <ProfileText size="medium">POSITION</ProfileText>
+                  <ProfileText size="extralarge"> {pilot.position}</ProfileText>
+                  <ProfileText size="medium" style={{ marginTop: "-4em" }}>
+                    POSITION
+                  </ProfileText>
                 </>
               )}
             </CompetitionInfo>
 
             <CompetitionInfo>
-              <ProfileText size="large">{pilot.score}</ProfileText>
-              <ProfileText size="medium">SCORE</ProfileText>
+              <ProfileText size="extralarge">{pilot.score}</ProfileText>
+              <ProfileText size="medium" style={{ marginTop: "-4em" }}>
+                SCORE
+              </ProfileText>
             </CompetitionInfo>
           </>
         )}

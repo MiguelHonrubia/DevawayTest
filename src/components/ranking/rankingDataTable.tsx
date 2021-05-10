@@ -6,18 +6,14 @@ import { RankingHeader } from "./rankingHeader";
 import { RankingDataRow } from "./rankingDataRow";
 import { RankingDataRowLabel } from "./rankingDataRowLabel";
 import { PositionIcon } from "../general/positionIcon";
-import { styled } from "../../lib/styled-components/styled-components";
-
-const RankingTable = styled.table`
-  width: 100%;
-  height: 100%;
-`;
+import { RankingTable } from "../../styles/components/ranking/ranking";
 
 export const RankingDataTable: React.FC<{
   pilots?: PilotType[];
   competitionRaces?: CompetitionRaceType[];
   onPilotDetail?: (id: string) => void;
-}> = ({ pilots, competitionRaces, onPilotDetail }) => {
+  idSelectedPilot?: string;
+}> = ({ pilots, competitionRaces, onPilotDetail, idSelectedPilot }) => {
   return (
     <RankingTable>
       <RankingHeaderContainer>
@@ -38,6 +34,9 @@ export const RankingDataTable: React.FC<{
                 <RankingDataRow
                   onClick={() => onPilotDetail && onPilotDetail(_id)}
                   key={`row` + index}
+                  selected={
+                    idSelectedPilot && idSelectedPilot === _id ? true : false
+                  }
                 >
                   <RankingDataRowLabel>
                     {index < 3 ? (
