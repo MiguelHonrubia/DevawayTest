@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Loader } from "../../../components/general/loader";
+import "@testing-library/jest-dom";
 
 test("Loader component render loading text", () => {
   render(<Loader />);

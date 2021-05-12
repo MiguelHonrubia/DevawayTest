@@ -16,12 +16,14 @@ export const PilotRaceDetail: React.FC<{
           if (index < 5) {
             return (
               <PilotRaceDetailCard
+                key={index}
                 idPilot={idPilot}
                 raceRanking={raceRanking}
                 showTime={showTimes ? showTimes : false}
               />
             );
           }
+          return null;
         })}
       </RaceDetailContainer>
       <RaceDetailContainer>
@@ -29,12 +31,14 @@ export const PilotRaceDetail: React.FC<{
           if (index >= 5) {
             return (
               <PilotRaceDetailCard
+                key={index}
                 idPilot={idPilot}
                 raceRanking={raceRanking}
                 showTime={showTimes ? showTimes : false}
               />
             );
           }
+          return null;
         })}
       </RaceDetailContainer>
     </>

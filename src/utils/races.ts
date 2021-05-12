@@ -6,8 +6,8 @@ export const getCompetitionRaces = (
 ): CompetitionRaceType[] => {
   const competitionRaces: CompetitionRaceType[] = [];
 
-  pilots.map((pilot) => {
-    pilot.races.map(({ name }) => {
+  pilots.forEach((pilot) => {
+    pilot.races.forEach(({ name }) => {
       const exists = competitionRaces.find((x) => x.name === name);
 
       if (!exists) {

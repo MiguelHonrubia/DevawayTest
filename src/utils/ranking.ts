@@ -20,9 +20,9 @@ export const BuildRaceRanking = (
 ): RaceRanking[] => {
   const raceRanking: RaceRanking[] = [];
 
-  competitionRaces.map((race) => {
-    pilots.map((pilot) => {
-      pilot.races.map(({ name, time }) => {
+  competitionRaces.forEach((race) => {
+    pilots.forEach((pilot) => {
+      pilot.races.forEach(({ name, time }) => {
         if (race.name === name) {
           const exists = raceRanking.find((x) => x.race.name === name);
 
@@ -43,16 +43,11 @@ export const BuildRaceRanking = (
 };
 
 export const formatTime = (pilot: PilotResult) => {
-  const hours = parseInt(pilot.time.split(":")[0]);
-  const minutes = parseInt(pilot.time.split(":")[1]);
-  const seconds = parseInt(pilot.time.split(":")[2].split(".")[0]);
-  const miliseconds = parseInt(pilot.time.split(":")[2].split(".")[1]);
-  const pilotTime = new Date().setHours(
-    Number(hours),
-    Number(minutes),
-    Number(seconds),
-    Number(miliseconds)
-  );
+  const hours = Number(pilot.time.split(":")[0]);
+  const minutes = Number(pilot.time.split(":")[1]);
+  const seconds = Number(pilot.time.split(":")[2].split(".")[0]);
+  const miliseconds = Number(pilot.time.split(":")[2].split(".")[1]);
+  const pilotTime = new Date().setHours(hours, minutes, seconds, miliseconds);
 
   return pilotTime;
 };
@@ -61,16 +56,16 @@ export const CalculatePuntuation = (
   raceRanking: RaceRanking[],
   pilots: PilotType[]
 ) => {
-  raceRanking.map((race) => {
-    race.pilots.map(
+  raceRanking.forEach((race) => {
+    race.pilots.forEach(
       (pilot, index) =>
         (pilot.score =
           PuntuationSystem[index] !== undefined ? PuntuationSystem[index] : 0)
     );
   });
 
-  pilots.map((pilot) => {
-    raceRanking.map((race) => {
+  pilots.forEach((pilot) => {
+    raceRanking.forEach((race) => {
       const pilotWithScore = race.pilots.find((x) => x._id === pilot._id);
       if (pilotWithScore) {
         pilot.score = (pilot.score || 0) + (pilotWithScore.score || 0);
@@ -80,7 +75,7 @@ export const CalculatePuntuation = (
 };
 
 export const sortRankingRace = (raceRanking: RaceRanking[]) => {
-  raceRanking.map((item) => {
+  raceRanking.forEach((item) => {
     item.pilots.sort((a, b) => {
       const pilotATime = formatTime(a);
       const pilotBTime = formatTime(b);

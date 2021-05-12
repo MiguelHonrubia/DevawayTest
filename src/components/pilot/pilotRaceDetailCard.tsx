@@ -28,34 +28,43 @@ export const PilotRaceDetailCard: React.FC<{
   return (
     <RaceDetailCard>
       <ProfileTextContainer>
-        <ProfileText
-          size="large"
+        <div
           style={{
-            alignItems: "center",
             display: "flex",
           }}
         >
           <RaceIcon height={25} width={25} />
-          <span style={{ marginLeft: "0.25em" }}>{raceRanking.race.name}</span>
-        </ProfileText>
+          <ProfileText
+            size="large"
+            style={{
+              alignItems: "center",
+              display: "flex",
+            }}
+          >
+            <span style={{ marginLeft: "0.25em" }}>
+              {raceRanking.race.name}
+            </span>
+          </ProfileText>
+        </div>
       </ProfileTextContainer>
       <ProfileTextContainer>
-        <ProfileText
-          size={showTime ? "medium" : "extralarge"}
-          style={{
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
+        <div style={{ display: "flex" }}>
           {showTime && <TimeIcon width={25} height={25} />}
-          <span style={{ marginLeft: "0.25em" }}>
-            {!showTime && raceInfo && raceInfo < 4 ? (
-              <PositionIcon position={Number(raceInfo)} />
-            ) : (
-              raceInfo
-            )}
-          </span>
-        </ProfileText>
+          {!showTime && raceInfo && raceInfo < 4 ? (
+            <PositionIcon position={Number(raceInfo)} />
+          ) : (
+            <ProfileText
+              size={showTime ? "medium" : "extralarge"}
+              style={{
+                alignItems: "center",
+                display: "flex",
+                marginLeft: "0.25em",
+              }}
+            >
+              {raceInfo}
+            </ProfileText>
+          )}
+        </div>
       </ProfileTextContainer>
     </RaceDetailCard>
   );
